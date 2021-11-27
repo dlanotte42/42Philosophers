@@ -6,7 +6,7 @@
 /*   By: dlanotte <dlanotte@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/27 17:47:54 by dlanotte          #+#    #+#             */
-/*   Updated: 2021/11/27 20:12:32 by dlanotte         ###   ########.fr       */
+/*   Updated: 2021/11/27 20:43:10 by dlanotte         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ int	ft_init_settings(char **argv, t_settings *settings)
 	errorn = ft_check_args(argv, settings);
 	if (!errorn)
 		return (0);
+	settings->forks = malloc(sizeof(pthread_mutex_t) * settings->number_philos);
 	return (1);
 }
 
@@ -62,5 +63,6 @@ int	main(int argc, char **argv)
 	if (!ft_init_settings(argv, &settings))
 		return (printf("Error: Wrong argments\n"));
 	ft_start(settings);
+	smart_free(&settings);
 	return (0);
 }

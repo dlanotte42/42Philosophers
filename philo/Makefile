@@ -6,7 +6,7 @@
 #    By: dlanotte <dlanotte@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/27 17:44:27 by dlanotte          #+#    #+#              #
-#    Updated: 2021/11/27 19:58:19 by dlanotte         ###   ########.fr        #
+#    Updated: 2021/11/27 20:45:06 by dlanotte         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,7 +27,9 @@ MAIN = main.c
 
 OTHER = other/functions01.c
 
-SRC = $(MAIN) $(OTHER)
+SRCS = src/utils01.c
+
+SRC = $(SRCS) $(MAIN) $(OTHER)
 
 OBJ := ${SRC:.c=.o}
 
