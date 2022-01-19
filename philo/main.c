@@ -6,7 +6,7 @@
 /*   By: dlanotte <dlanotte@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/27 17:47:54 by dlanotte          #+#    #+#             */
-/*   Updated: 2022/01/19 02:44:15 by dlanotte         ###   ########.fr       */
+/*   Updated: 2022/01/19 19:30:30 by dlanotte         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,45 @@ void	ft_philo_cyclo(t_settings *philo, int *eaten_numbers, int id)
 {
 	pthread_mutex_lock(&philo->forks[id]);
 	ft_print_status(0, philo, id);
-	pthread_mutex_lock(&philo->forks[(id + 1)]);
+	pthread_mutex_lock(&philo->forks[(id + 1) % philo->number_philos]);
 	ft_print_status(0, philo, id);
 	ft_print_status(1, philo, id);
+	philo->last_philo_eat_time[id] = ft_clock() - philo->start_time;
+	ft_usleep(philo->time_to_eat, philo->number_philos);
+	pthread_mutex_unlock(&philo->forks[id]);
+	pthread_mutex_unlock(&philo->forks[(id + 1) % philo->number_philos]);
+	ft_print_status(2, philo, id);
 	*eaten_numbers = *eaten_numbers + 1;
+	if (*eaten_numbers == philo->num_times_philo_eat)
+	{
+		pthread_mutex_lock(&philo->sss);
+		philo->eating_number++;
+		pthread_mutex_unlock(&philo->sss);
+	}
+	ft_usleep(philo->time_to_eat, philo->number_philos);
+	ft_print_status(3, philo, id);
+}
+
+void	ft_check_is_dead(t_settings *philo)
+{
+	int	i;
+
+	while (philo->eating_number < philo->number_philos)
+	{
+		i = -1;
+		while (++i < philo->number_philos)
+		{
+			if ((ft_clock() - philo->start_time) \
+			- (philo->last_philo_eat_time[i] >= philo->time_to_die))
+			{
+				ft_dead(philo, i);
+				return ;
+			}
+		}
+		ft_usleep(1, philo->number_philos);
+	}
+	pthread_mutex_lock(&philo->ss);
+	printf("The eating cycle are terminated");
 }
 
 void	ft_philo_life(t_settings *philo)
@@ -61,6 +96,8 @@ int	main(int argc, char **argv)
 	if (!ft_init_settings(argv, &settings))
 		return (printf("[Error] Wrong argments\n"));
 	ft_start(settings);
+	ft_check_is_dead(&settings);
+	ft_usleep(100, settings.number_philos);
 	smart_free(&settings);
 	return (0);
 }
