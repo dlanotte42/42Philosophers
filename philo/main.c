@@ -6,11 +6,16 @@
 /*   By: dlanotte <dlanotte@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/27 17:47:54 by dlanotte          #+#    #+#             */
-/*   Updated: 2022/01/19 01:12:24 by dlanotte         ###   ########.fr       */
+/*   Updated: 2022/01/19 02:14:02 by dlanotte         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/philo.h"
+
+void	ft_philo_cyclo()
+{
+	
+}
 
 void	ft_philo_life(t_settings *philo)
 {
@@ -18,7 +23,10 @@ void	ft_philo_life(t_settings *philo)
 
 	id = philo->i;
 	pthread_mutex_unlock(&philo->s);
-	printf("Ciao");
+	if (id % 2)
+		ft_usleep(1, philo->number_philos);
+	while (1)
+		ft_philo_cyclo();
 }
 
 int	ft_start(t_settings settings)
