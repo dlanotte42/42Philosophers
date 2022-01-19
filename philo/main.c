@@ -6,51 +6,34 @@
 /*   By: dlanotte <dlanotte@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/27 17:47:54 by dlanotte          #+#    #+#             */
-/*   Updated: 2021/11/27 20:43:10 by dlanotte         ###   ########.fr       */
+/*   Updated: 2022/01/19 01:12:24 by dlanotte         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/philo.h"
 
-int	ft_check_args(char **argv, t_settings *settings)
+void	ft_philo_life(t_settings *philo)
 {
-	settings->num_times_philo_eat = -2;
-	settings->number_philos = ft_atoi(argv[1]);
-	settings->time_to_die = ft_atoi(argv[2]);
-	settings->time_to_eat = ft_atoi(argv[3]);
-	settings->time_to_sleep = ft_atoi(argv[4]);
-	if (argv[5])
-		settings->num_times_philo_eat = ft_atoi(argv[5]);
-	if (settings->number_philos == -1)
-		return (0);
-	if (settings->time_to_die == -1)
-		return (0);
-	if (settings->time_to_eat == -1)
-		return (0);
-	if (settings->time_to_sleep == -1)
-		return (0);
-	if (settings->num_times_philo_eat == -1)
-		return (0);
-	return (1);
+	int		id;
+
+	id = philo->i;
+	pthread_mutex_unlock(&philo->s);
+	printf("Ciao");
 }
 
 int	ft_start(t_settings settings)
 {
-	struct timeval	time;
+	int		i;
 
-	gettimeofday(&time, NULL);
-	settings.start_time = (time.tv_sec * 1000) + (time.tv_usec / 1000);
-	return (1);
-}
-
-int	ft_init_settings(char **argv, t_settings *settings)
-{
-	int			errorn;
-
-	errorn = ft_check_args(argv, settings);
-	if (!errorn)
-		return (0);
-	settings->forks = malloc(sizeof(pthread_mutex_t) * settings->number_philos);
+	i = -1;
+	settings.start_time = ft_clock();
+	while (++i < settings.number_philos)
+	{
+		pthread_mutex_lock(&settings.s);
+		settings.i = i;
+		pthread_create(&settings.philo[settings.i], \
+			NULL, (void *)ft_philo_life, &settings);
+	}
 	return (1);
 }
 
@@ -59,9 +42,9 @@ int	main(int argc, char **argv)
 	t_settings	settings;
 
 	if (argc < 5 || argc > 6)
-		return (printf("Error: Wrong number of argments\n"));
+		return (printf("[Error] Wrong number of argments\n"));
 	if (!ft_init_settings(argv, &settings))
-		return (printf("Error: Wrong argments\n"));
+		return (printf("[Error] Wrong argments\n"));
 	ft_start(settings);
 	smart_free(&settings);
 	return (0);

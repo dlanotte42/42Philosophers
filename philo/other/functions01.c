@@ -6,49 +6,33 @@
 /*   By: dlanotte <dlanotte@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/27 18:02:24 by dlanotte          #+#    #+#             */
-/*   Updated: 2021/11/27 18:47:53 by dlanotte         ###   ########.fr       */
+/*   Updated: 2022/01/19 01:28:30 by dlanotte         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int	ft_s_atoi(char *str)
+int	ft_isdigit(int c)
 {
-	int	i;
-
-	i = 0;
-	while (str[i])
-	{
-		if (str[i] < '1' || str[i] > '9')
-			return (-1);
-		i++;
-	}
-	return (1);
+	return (c >= '0' && c <= '9');
 }
 
-int	ft_atoi(char *str)
+int	ft_atoi(const char *str)
 {
-	int	res;
-	int	i;
-	int	sign;
+	int						is_negative;
+	unsigned long long		result;
 
-	sign = 1;
-	i = 0;
-	if (ft_s_atoi(str) == -1)
-		return (-1);
-	while (str[i] == ' ' || str[i] == '\t' || str[i] == '\n' \
-		|| str[i] == '\r' || str[i] == '\f' || str[i] == '\v')
-		i++;
-	if (str[i] == '-' || str[i] == '+')
+	result = 0;
+	is_negative = 1;
+	while (*str && (*str == ' ' || *str == '\n' || *str == '\t' || \
+			*str == '\v' || *str == '\f' || *str == '\r'))
+		str++;
+	if (*str == '-')
+		is_negative = -1;
+	if (*str == '+' || *str == '-')
+		str++;
+	while (*str && ft_isdigit(*str))
 	{
-		if (str[i] == '-')
-			sign = -1;
-		i++;
+		result = result * 10 + (*str - 48);
+		str++;
 	}
-	res = 0;
-	while (str[i] >= '0' && str[i] <= '9')
-	{
-		res = (res * 10) + (str[i] - 48);
-		i++;
-	}
-	res = res * sign;
-	return (res);
+	return ((int)result * is_negative);
 }

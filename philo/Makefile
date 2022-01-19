@@ -6,7 +6,7 @@
 #    By: dlanotte <dlanotte@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/27 17:44:27 by dlanotte          #+#    #+#              #
-#    Updated: 2021/11/27 20:45:06 by dlanotte         ###   ########.fr        #
+#    Updated: 2022/01/18 23:54:05 by dlanotte         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -57,7 +57,7 @@ debug: $(OBJ)
 
 clean:   
 	@ rm -f ${OBJ}
-	@ echo $(YELLOW)"clean completed."$(COLOR_OFF)
+	@ echo $(YELLOW)"⚒ clean completed."$(COLOR_OFF)
 
 fclean: clean
 	@ rm -f $(NAME)
@@ -65,9 +65,8 @@ fclean: clean
 	@ rm -dir -f *.dSYM
 	@ rm -f *.out
 	@ find . -name ".DS_Store" -delete
-	@ echo $(RED)"fclean completed."$(COLOR_OFF)
+	@ echo $(RED)"⚒ fclean completed."$(COLOR_OFF)
 
 re: fclean all
-
 
 PHONY: 	all clean fclean re 
