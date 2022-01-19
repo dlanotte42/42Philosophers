@@ -6,7 +6,7 @@
 /*   By: dlanotte <dlanotte@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/27 17:48:12 by dlanotte          #+#    #+#             */
-/*   Updated: 2022/01/19 02:13:34 by dlanotte         ###   ########.fr       */
+/*   Updated: 2022/01/19 02:15:30 by dlanotte         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ typedef struct s_settings
 
 void	smart_free(t_settings *settings);
 void	ft_usleep(int time, int philo_numb);
-void	ft_printf_status(int print_action, t_settings *philo, int id);
+void	ft_print_status(int print_action, t_settings *philo, int id);
 int		ft_check_args(char **argv, t_settings *settings);
 int		ft_clock(void);
 int		ft_init_settings(char **argv, t_settings *settings);

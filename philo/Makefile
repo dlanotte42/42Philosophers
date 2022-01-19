@@ -6,7 +6,7 @@
 #    By: dlanotte <dlanotte@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/27 17:44:27 by dlanotte          #+#    #+#              #
-#    Updated: 2022/01/18 23:54:05 by dlanotte         ###   ########.fr        #
+#    Updated: 2022/01/19 02:40:39 by dlanotte         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,7 +27,7 @@ MAIN = main.c
 
 OTHER = other/functions01.c
 
-SRCS = src/utils01.c
+SRCS = src/utils01.c src/utils02.c
 
 SRC = $(SRCS) $(MAIN) $(OTHER)
 

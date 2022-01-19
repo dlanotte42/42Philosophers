@@ -6,27 +6,34 @@
 /*   By: dlanotte <dlanotte@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/27 17:47:54 by dlanotte          #+#    #+#             */
-/*   Updated: 2022/01/19 02:14:02 by dlanotte         ###   ########.fr       */
+/*   Updated: 2022/01/19 02:44:15 by dlanotte         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/philo.h"
 
-void	ft_philo_cyclo()
+void	ft_philo_cyclo(t_settings *philo, int *eaten_numbers, int id)
 {
-	
+	pthread_mutex_lock(&philo->forks[id]);
+	ft_print_status(0, philo, id);
+	pthread_mutex_lock(&philo->forks[(id + 1)]);
+	ft_print_status(0, philo, id);
+	ft_print_status(1, philo, id);
+	*eaten_numbers = *eaten_numbers + 1;
 }
 
 void	ft_philo_life(t_settings *philo)
 {
 	int		id;
+	int		eaten_number;
 
+	eaten_number = 0;
 	id = philo->i;
 	pthread_mutex_unlock(&philo->s);
 	if (id % 2)
 		ft_usleep(1, philo->number_philos);
 	while (1)
-		ft_philo_cyclo();
+		ft_philo_cyclo(philo, &eaten_number, id);
 }
 
 int	ft_start(t_settings settings)
