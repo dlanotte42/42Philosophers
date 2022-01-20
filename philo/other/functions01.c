@@ -6,9 +6,11 @@
 /*   By: dlanotte <dlanotte@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/27 18:02:24 by dlanotte          #+#    #+#             */
-/*   Updated: 2022/01/19 01:28:30 by dlanotte         ###   ########.fr       */
+/*   Updated: 2022/01/20 23:58:26 by dlanotte         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "../includes/philo.h"
 
 int	ft_isdigit(int c)
 {
@@ -35,4 +37,26 @@ int	ft_atoi(const char *str)
 		str++;
 	}
 	return ((int)result * is_negative);
+}
+
+void	ft_usleep(int time, int philo_numb)
+{
+	int		i;
+
+	if (time > 0)
+	{
+		i = ft_clock() + time;
+		while (ft_clock() < i)
+			usleep(philo_numb * 2);
+	}
+}
+
+int	ft_clock(void)
+{
+	struct timeval	time;
+	int				actual_time;
+
+	gettimeofday(&time, NULL);
+	actual_time = (time.tv_sec * 1000) + (time.tv_usec / 1000);
+	return (actual_time);
 }

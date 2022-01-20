@@ -6,7 +6,7 @@
 /*   By: dlanotte <dlanotte@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/27 20:07:43 by dlanotte          #+#    #+#             */
-/*   Updated: 2022/01/19 19:18:32 by dlanotte         ###   ########.fr       */
+/*   Updated: 2022/01/21 00:01:16 by dlanotte         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,21 +20,11 @@ void	smart_free(t_settings *settings)
 	free(settings->last_philo_eat_time);
 	pthread_mutex_destroy(&settings->s);
 	free(settings->forks);
-	while (i < settings->number_philos)
+	while (++i < settings->number_philos)
 		pthread_detach(settings->philo[i]);
 	pthread_mutex_destroy(&settings->ss);
 	pthread_mutex_destroy(&settings->sss);
 	free(settings->philo);
-}
-
-int	ft_clock(void)
-{
-	struct timeval	time;
-	int				actual_time;
-
-	gettimeofday(&time, NULL);
-	actual_time = (time.tv_sec * 1000) + (time.tv_usec / 1000);
-	return (actual_time);
 }
 
 int	ft_check_args(char **argv, t_settings *settings)
@@ -86,14 +76,19 @@ int	ft_init_settings(char **argv, t_settings *settings)
 	return (1);
 }
 
-void	ft_usleep(int time, int philo_numb)
+void	ft_print_status(int print_action, t_settings *philo, int id)
 {
-	int		i;
-
-	if (time > 0)
-	{
-		i = ft_clock() + time;
-		while (ft_clock() < i)
-			usleep(philo_numb * 2);
-	}
+	pthread_mutex_lock(&philo->ss);
+	if (print_action == 0)
+		printf("[%d][%d] has taken fork\n", (ft_clock()) - philo->start_time,
+			id + 1);
+	else if (print_action == 1)
+		printf("[%d][%d] is eating\n", (ft_clock()) - philo->start_time, id + 1);
+	else if (print_action == 2)
+		printf("[%d][%d] is sleeping\n", (ft_clock()) - philo->start_time,
+			id + 1);
+	else if (print_action == 3)
+		printf("[%d][%d] is thinking\n", (ft_clock()) - philo->start_time,
+			id + 1);
+	pthread_mutex_unlock(&philo->ss);
 }

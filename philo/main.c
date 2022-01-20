@@ -6,13 +6,13 @@
 /*   By: dlanotte <dlanotte@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/27 17:47:54 by dlanotte          #+#    #+#             */
-/*   Updated: 2022/01/19 19:30:30 by dlanotte         ###   ########.fr       */
+/*   Updated: 2022/01/21 00:01:10 by dlanotte         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/philo.h"
 
-void	ft_philo_cyclo(t_settings *philo, int *eaten_numbers, int id)
+static void	ft_philo_cyclo(t_settings *philo, int *eaten_numbers, int id)
 {
 	pthread_mutex_lock(&philo->forks[id]);
 	ft_print_status(0, philo, id);
@@ -35,7 +35,7 @@ void	ft_philo_cyclo(t_settings *philo, int *eaten_numbers, int id)
 	ft_print_status(3, philo, id);
 }
 
-void	ft_check_is_dead(t_settings *philo)
+static void	ft_check_is_dead(t_settings *philo)
 {
 	int	i;
 
@@ -44,20 +44,23 @@ void	ft_check_is_dead(t_settings *philo)
 		i = -1;
 		while (++i < philo->number_philos)
 		{
-			if ((ft_clock() - philo->start_time) \
-			- (philo->last_philo_eat_time[i] >= philo->time_to_die))
+			if ((ft_clock() - philo->start_time) - \
+			(philo->last_philo_eat_time[i]) >= philo->time_to_die)
 			{
-				ft_dead(philo, i);
+				philo->is_dead = 1;
+				pthread_mutex_lock(&philo->ss);
+				printf("[%d][%d] has died\n", (ft_clock()) \
+					- philo->start_time, i +1);
 				return ;
-			}
+			}	
 		}
 		ft_usleep(1, philo->number_philos);
 	}
 	pthread_mutex_lock(&philo->ss);
-	printf("The eating cycle are terminated");
+	printf("All philosophers are done eating\n");
 }
 
-void	ft_philo_life(t_settings *philo)
+static void	ft_philo_life(t_settings *philo)
 {
 	int		id;
 	int		eaten_number;
@@ -71,20 +74,19 @@ void	ft_philo_life(t_settings *philo)
 		ft_philo_cyclo(philo, &eaten_number, id);
 }
 
-int	ft_start(t_settings settings)
+static void	ft_start(t_settings *settings)
 {
 	int		i;
 
 	i = -1;
-	settings.start_time = ft_clock();
-	while (++i < settings.number_philos)
+	settings->start_time = ft_clock();
+	while (++i < settings->number_philos)
 	{
-		pthread_mutex_lock(&settings.s);
-		settings.i = i;
-		pthread_create(&settings.philo[settings.i], \
-			NULL, (void *)ft_philo_life, &settings);
+		pthread_mutex_lock(&settings->s);
+		settings->i = i;
+		pthread_create(&settings->philo[settings->i], \
+			NULL, (void *)ft_philo_life, settings);
 	}
-	return (1);
 }
 
 int	main(int argc, char **argv)
@@ -95,7 +97,7 @@ int	main(int argc, char **argv)
 		return (printf("[Error] Wrong number of argments\n"));
 	if (!ft_init_settings(argv, &settings))
 		return (printf("[Error] Wrong argments\n"));
-	ft_start(settings);
+	ft_start(&settings);
 	ft_check_is_dead(&settings);
 	ft_usleep(100, settings.number_philos);
 	smart_free(&settings);

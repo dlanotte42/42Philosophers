@@ -6,7 +6,7 @@
 #    By: dlanotte <dlanotte@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/27 17:44:27 by dlanotte          #+#    #+#              #
-#    Updated: 2022/01/19 19:11:42 by dlanotte         ###   ########.fr        #
+#    Updated: 2022/01/20 23:58:37 by dlanotte         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,7 @@ NAME = Philo
 
 CC = gcc
 
-CFLAGS = #-Werror -Wextra -Wall
+CFLAGS = -Werror -Wextra -Wall
 
 DFLAGS = -g -Werror -Wextra -Wall 
 
@@ -27,13 +27,14 @@ MAIN = main.c
 
 OTHER = other/functions01.c
 
-SRCS = src/utils01.c src/utils02.c
+SRCS = src/utils01.c
 
 SRC = $(SRCS) $(MAIN) $(OTHER)
 
 OBJ := ${SRC:.c=.o}
 
 %.o: %.c
+	@printf "\033[0;31mGenerating minishell objects... %-33.33s\r" $@
 	@ $(CC) $(CFLAGS) -g -c $< -o $@ 
 
 all: $(NAME)
