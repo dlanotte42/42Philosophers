@@ -6,7 +6,7 @@
 /*   By: dlanotte <dlanotte@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/27 20:07:43 by dlanotte          #+#    #+#             */
-/*   Updated: 2022/01/22 04:17:34 by dlanotte         ###   ########.fr       */
+/*   Updated: 2022/01/22 05:10:38 by dlanotte         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,13 +83,15 @@ void	ft_print_status(int mode, t_settings *philo, int id)
 {
 	pthread_mutex_lock(&philo->ss);
 	if (mode == 0)
-		printf("%d %d, has taken a fork\n",
+		printf("[%d][%d] has taken a fork\n",
 			(ft_clock()) - philo->start_time, id + 1);
 	else if (mode == 1)
-		printf("%d %d, is eating\n", (ft_clock()) - philo->start_time, id + 1);
+		printf("[%d][%d] is eating\n", (ft_clock()) - philo->start_time, id + 1);
 	else if (mode == 2)
-		printf("%d %d, is sleeping\n", (ft_clock()) - philo->start_time, id + 1);
+		printf("[%d][%d] is sleeping\n", (ft_clock()) \
+			- philo->start_time, id + 1);
 	else if (mode == 3)
-		printf("%d %d, is thinking\n", (ft_clock()) - philo->start_time, id + 1);
+		printf("[%d][%d] is thinking\n", (ft_clock()) \
+			- philo->start_time, id + 1);
 	pthread_mutex_unlock(&philo->ss);
 }
