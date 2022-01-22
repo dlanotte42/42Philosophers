@@ -6,7 +6,7 @@
 #    By: dlanotte <dlanotte@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/27 17:44:27 by dlanotte          #+#    #+#              #
-#    Updated: 2022/01/20 23:58:37 by dlanotte         ###   ########.fr        #
+#    Updated: 2022/01/21 00:26:40 by dlanotte         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,7 @@ NAME = Philo
 
 CC = gcc
 
-CFLAGS = -Werror -Wextra -Wall
+CFLAGS = #-Werror -Wextra -Wall
 
 DFLAGS = -g -Werror -Wextra -Wall 
 

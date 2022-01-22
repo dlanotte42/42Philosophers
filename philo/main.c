@@ -6,13 +6,13 @@
 /*   By: dlanotte <dlanotte@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/27 17:47:54 by dlanotte          #+#    #+#             */
-/*   Updated: 2022/01/21 00:01:10 by dlanotte         ###   ########.fr       */
+/*   Updated: 2022/01/21 01:39:20 by dlanotte         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/philo.h"
 
-static void	ft_philo_cyclo(t_settings *philo, int *eaten_numbers, int id)
+void	ft_philo_cyclo(t_settings *philo, int *eaten_numbers, int id)
 {
 	pthread_mutex_lock(&philo->forks[id]);
 	ft_print_status(0, philo, id);
@@ -35,7 +35,7 @@ static void	ft_philo_cyclo(t_settings *philo, int *eaten_numbers, int id)
 	ft_print_status(3, philo, id);
 }
 
-static void	ft_check_is_dead(t_settings *philo)
+void	ft_check_is_dead(t_settings *philo)
 {
 	int	i;
 
@@ -60,7 +60,7 @@ static void	ft_check_is_dead(t_settings *philo)
 	printf("All philosophers are done eating\n");
 }
 
-static void	ft_philo_life(t_settings *philo)
+void	ft_philo_life(t_settings *philo)
 {
 	int		id;
 	int		eaten_number;
@@ -74,7 +74,7 @@ static void	ft_philo_life(t_settings *philo)
 		ft_philo_cyclo(philo, &eaten_number, id);
 }
 
-static void	ft_start(t_settings *settings)
+void	ft_start(t_settings *settings)
 {
 	int		i;
 
